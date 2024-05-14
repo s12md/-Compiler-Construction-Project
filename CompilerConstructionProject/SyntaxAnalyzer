@@ -1,0 +1,33 @@
+public class SyntaxAnalyzer {
+    public static void main(String[] args) {
+        String code = "int x = 10;\n" +
+                "if (x > 5) {\n" +
+                "    System.out.println(\"x is greater than 5\");\n" +
+                "} else {\n" +
+                "    System.out.println(\"x is less than or equal to 5\");\n" +
+                "}\n" +
+                "for (int i = 0; i < 10; i++) {\n" +
+                "    System.out.println(i);\n" +
+                "}";
+        syntaxAnalysis(code);
+    }
+
+    public static void syntaxAnalysis(String code) {
+        String[] lines = code.split("\n");
+        int lineNumber = 1;
+
+        for (String line : lines) {
+            if (line.startsWith("if")) {
+                if (!line.contains("{")) {
+                    System.out.println("Syntax error: Missing opening brace in if statement at line " + lineNumber);
+                }
+            } else if (line.startsWith("for")) {
+                if (!line.contains("{")) {
+                    System.out.println("Syntax error: Missing opening brace in for loop at line " + lineNumber);
+                }
+            }
+
+            lineNumber++;
+        }
+    }
+}

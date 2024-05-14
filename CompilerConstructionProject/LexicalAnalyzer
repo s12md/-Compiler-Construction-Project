@@ -1,0 +1,65 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class LexicalAnalyzer {
+
+    private BufferedReader reader;
+    private String currentLine;
+    private int lineNumber;
+
+    private Map<String, Token> symbolTable;
+    private int currentIndex;
+
+    public LexicalAnalyzer(String filePath) {
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            currentLine = reader.readLine();
+            lineNumber = 1;
+            symbolTable = new HashMap<>();
+            currentIndex = 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void analyze() {
+        while (currentLine != null) {
+            analyzeLine(currentLine);
+            try {
+                currentLine = reader.readLine();
+                lineNumber++;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void analyzeLine(String line) {
+        String[] tokens = line.split(" ");
+        for (String token : tokens) {
+            Token t = new Token(token, currentIndex++);
+            symbolTable.put(token, t);
+            System.out.println("Lexeme: " + token + ", Token: " + t.getToken() + ", Attribute: " + t.getAttribute());
+        }
+    }
+
+    public boolean hasCommonLexeme(String sentence) {
+        String[] tokens = sentence.split(" ");
+        for (String token : tokens) {
+            if (symbolTable.containsKey(token)) {
+                System.out.println("Common lexeme found: " + token + ", Index: " + symbolTable.get(token).getAttribute());
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void main(String[] args) {
+        LexicalAnalyzer analyzer = new LexicalAnalyzer("input.txt");
+        analyzer.analyze();
+        analyzer.hasCommonLexeme("Hello world");
+    }
+
+}

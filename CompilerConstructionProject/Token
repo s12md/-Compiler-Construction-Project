@@ -1,0 +1,17 @@
+class Token {
+    private String token;
+    private int attribute;
+
+    public Token(String token, int attribute) {
+        this.token = token;
+        this.attribute = attribute;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public int getAttribute() {
+        return attribute;
+    }
+}
